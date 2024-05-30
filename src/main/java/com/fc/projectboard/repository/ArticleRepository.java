@@ -2,10 +2,10 @@ package com.fc.projectboard.repository;
 
 import com.fc.projectboard.domain.Article;
 import com.fc.projectboard.domain.QArticle;
-import com.fc.projectboard.domain.QArticleComment;
 import com.querydsl.core.types.dsl.DateTimeExpression;
-import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -18,6 +18,7 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>, // entity 안에 있는 모든 필드에 대한 기본 검색 기능 추가
         QuerydslBinderCustomizer<QArticle>  // 부분 검색
 {
+    Page<Article> findByTitle(String title, Pageable pageable);
     @Override
     default void customize(QuerydslBindings bindings, QArticle root) {
         bindings.excludeUnlistedProperties(true);
