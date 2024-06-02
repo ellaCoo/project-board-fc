@@ -32,5 +32,5 @@ public record ArticleCommentDto(
                 entity.getModifiedAt(),
                 entity.getModifiedBy()
         );
-    }
+}
 }
