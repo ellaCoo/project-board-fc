@@ -14,6 +14,6 @@ public class MainController {
     public String root() {
         // "redirect:/articles": 사용자를 "/articles" 경로로 리다이렉트한다.
         // 즉, 사용자가 "/" 경로에 접근하면 "/articles" 경로로 자동으로 이동된다.
-        return "redirect:/articles";
+        return "forward:/articles";
     }
 }
