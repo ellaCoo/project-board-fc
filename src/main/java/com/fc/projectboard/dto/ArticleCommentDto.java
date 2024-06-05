@@ -1,5 +1,6 @@
 package com.fc.projectboard.dto;
 
+import com.fc.projectboard.domain.Article;
 import com.fc.projectboard.domain.ArticleComment;
 
 import java.time.LocalDateTime;
@@ -32,5 +33,12 @@ public record ArticleCommentDto(
                 entity.getModifiedAt(),
                 entity.getModifiedBy()
         );
-}
+    }
+    public ArticleComment toEntity(Article entity) {
+        return ArticleComment.of(
+                entity,
+                userAccountDto.toEntity(),
+                content
+        );
+    }
 }
