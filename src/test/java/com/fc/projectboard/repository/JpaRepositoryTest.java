@@ -49,7 +49,7 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFind() {
         // Given
         long previousCount = articleRepository.count();
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("ella", "pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("newElla", "pw", null, null, null));
         Article article = Article.of(userAccount, "new article", "new content", "#spring");
         // When
         articleRepository.save(article);
