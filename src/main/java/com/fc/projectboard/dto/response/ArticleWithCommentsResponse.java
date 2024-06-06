@@ -2,7 +2,6 @@ package com.fc.projectboard.dto.response;
 
 import com.fc.projectboard.dto.ArticleWithCommentsDto;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -17,7 +16,7 @@ public record ArticleWithCommentsResponse(
         String email, // 게시글 작성자의 이메일 주소
         String nickname, // 게시글 작성자의 닉네임
         Set<ArticleCommentResponse> articleCommentsResponses // 게시글에 달린 댓글 목록, ArticleCommentResponse 객체의 집합
-) implements Serializable { // Serializable 인터페이스를 구현하여 객체의 직렬화가 가능하도록 함
+) {
 
     // 정적 팩토리 메서드, 필요한 모든 정보를 받아 ArticleWithCommentResponse 객체를 생성하고 반환
     public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {

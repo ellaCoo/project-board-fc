@@ -1,9 +1,8 @@
 package com.fc.projectboard.dto.response; // 패키지 선언, 이 클래스가 위치할 패키지 경로 지정
 
-import com.fc.projectboard.dto.ArticleDto; // ArticleDto 클래스를 사용하기 위해 해당 클래스를 임포트
+import com.fc.projectboard.dto.ArticleDto;
 
-import java.io.Serializable; // 객체가 직렬화 가능하도록 하기 위해 Serializable 인터페이스를 임포트
-import java.time.LocalDateTime; // 날짜와 시간을 다루기 위해 LocalDateTime 클래스를 임포트
+import java.time.LocalDateTime;
 
 // ArticleResponse는 레코드 클래스로, 응답 데이터 구조를 간단하게 정의
 public record ArticleResponse(
@@ -14,7 +13,7 @@ public record ArticleResponse(
         LocalDateTime createdAt, // 게시글 생성 시간
         String email, // 게시글 작성자의 이메일
         String nickname // 게시글 작성자의 닉네임
-) implements Serializable { // Serializable 인터페이스 구현으로 객체 직렬화 가능
+) {
 
     // 정적 팩토리 메서드, 모든 필드 값을 입력받아 새로운 ArticleResponse 객체를 생성하여 반환
     public static ArticleResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname) {
