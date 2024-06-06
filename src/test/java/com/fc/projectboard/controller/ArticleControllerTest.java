@@ -219,21 +219,21 @@ class ArticleControllerTest {
                 LocalDateTime.now(),
                 "uno",
                 LocalDateTime.now(),
-                "uno"
+                "ella"
         );
     }
 
     private UserAccountDto createUserAccountDto() {
-        return UserAccountDto.of(1L,
-                "uno",
+        return UserAccountDto.of(
+                "ella",
                 "pw",
-                "uno@mail.com",
-                "Uno",
+                "ella@mail.com",
+                "ella",
                 "memo",
                 LocalDateTime.now(),
-                "uno",
+                "ella",
                 LocalDateTime.now(),
-                "uno"
+                "ella"
         );
     }
 }
