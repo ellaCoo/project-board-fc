@@ -26,6 +26,7 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
 
     @Setter // setter 메서드를 자동 생성
     @ManyToOne(optional = false) // 다대일 관계를 나타내며, 반드시 관계가 존재해야 함(non-optional)
+    @JoinColumn(name = "userId")
     private UserAccount userAccount; // 관계된 UserAccount 엔티티를 참조
 
     @Setter // 'title' 필드에 대한 setter 메서드 자동 생성
