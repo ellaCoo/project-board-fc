@@ -45,7 +45,7 @@ class ArticleControllerTest {
     private final FormDataEncoder formDataEncoder;
 
     // 필드주입
-    @MockBean
+    @MockBean // ->MockBean이 생성자 주입 지원하지 않음
     private ArticleService articleService;
     @MockBean
     private PaginationService paginationService;

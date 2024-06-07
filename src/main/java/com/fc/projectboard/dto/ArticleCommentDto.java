@@ -2,6 +2,7 @@ package com.fc.projectboard.dto;
 
 import com.fc.projectboard.domain.Article;
 import com.fc.projectboard.domain.ArticleComment;
+import com.fc.projectboard.domain.UserAccount;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,11 @@ public record ArticleCommentDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
+    // 영속화되지 않은 (엔티티에 만들어 넣기 전까지 못 넣는) 정보들을 null로 만들 수 있게 하는 팩토리메서드
+    public static ArticleCommentDto of(Long articleId, UserAccountDto userAccountDto, String content) {
+        return new ArticleCommentDto(null, articleId, userAccountDto, content, null, null, null, null);
+    }
+
     public static ArticleCommentDto of(Long id, Long articleId, UserAccountDto userAccountDto, String content, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new ArticleCommentDto(id, articleId, userAccountDto, content, createdAt, createdBy, modifiedAt, modifiedBy);
     }
@@ -34,10 +40,11 @@ public record ArticleCommentDto(
                 entity.getModifiedBy()
         );
     }
-    public ArticleComment toEntity(Article entity) {
+
+    public ArticleComment toEntity(Article article, UserAccount userAccount) {
         return ArticleComment.of(
-                entity,
-                userAccountDto.toEntity(),
+                article,
+                userAccount,
                 content
         );
     }
