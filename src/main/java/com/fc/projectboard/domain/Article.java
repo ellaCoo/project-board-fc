@@ -63,9 +63,8 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
     @Override
     public boolean equals(Object o) { // 객체 동등성을 비교하는 메서드, 'id' 필드 기준으로 비교
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Article article = (Article) o;
-        return id != null && id.equals(article.id);
+        if (!(o instanceof Article that)) return false;
+        return id != null && id.equals(that.getId());
     }
 
     @Override
