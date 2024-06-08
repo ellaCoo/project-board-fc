@@ -20,6 +20,8 @@ public interface ArticleCommentRepository extends
 {
     List<ArticleComment> findByArticle_Id(Long articleId); // articleId를 사용하여 ArticleComment 객체들을 조회하는 메서드
 
+    void deleteByIdAndUserAccount_UserId(Long articleCommentId, String userId);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root) { // QuerydslBinderCustomizer 인터페이스의 메서드를 오버라이드하여 쿼리 바인딩을 커스터마이즈
         bindings.excludeUnlistedProperties(true); // 명시되지 않은 속성은 바인딩에서 제외
