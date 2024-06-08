@@ -8,7 +8,6 @@ import com.fc.projectboard.dto.ArticleWithCommentsDto;
 import com.fc.projectboard.dto.UserAccountDto;
 import com.fc.projectboard.repository.ArticleRepository;
 import com.fc.projectboard.repository.UserAccountRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
