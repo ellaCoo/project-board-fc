@@ -15,12 +15,13 @@ public record ArticleWithCommentsResponse(
         LocalDateTime createdAt, // 게시글이 생성된 시간
         String email, // 게시글 작성자의 이메일 주소
         String nickname, // 게시글 작성자의 닉네임
+        String userId,
         Set<ArticleCommentResponse> articleCommentsResponses // 게시글에 달린 댓글 목록, ArticleCommentResponse 객체의 집합
 ) {
 
     // 정적 팩토리 메서드, 필요한 모든 정보를 받아 ArticleWithCommentResponse 객체를 생성하고 반환
-    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
-        return new ArticleWithCommentsResponse(id, title, content, hashtag, createdAt, email, nickname, articleCommentResponses);
+    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
+        return new ArticleWithCommentsResponse(id, title, content, hashtag, createdAt, email, nickname, userId, articleCommentResponses);
     }
 
     // DTO를 사용해 ArticleWithCommentResponse 객체를 생성하는 정적 팩토리 메서드
@@ -39,6 +40,7 @@ public record ArticleWithCommentsResponse(
                 dto.createdAt(), // DTO에서 게시글 생성 시간 가져오기
                 dto.userAccountDto().email(), // DTO에서 작성자 이메일 가져오기
                 nickname, // 계산된 또는 대체된 닉네임
+                dto.userAccountDto().userId(),
                 dto.articleCommentDtos().stream() // DTO에서 댓글 DTO 스트림 생성
                         .map(ArticleCommentResponse::from) // 스트림의 각 요소를 ArticleCommentResponse 객체로 변환
                         .collect(Collectors.toCollection(LinkedHashSet::new)) // 결과를 LinkedHashSet으로 수집하여 순서 유지
