@@ -5,7 +5,7 @@ logging:
   level:
     com.fc.projectboard: debug
     org.springframework.web.servlet: debug
-    org.hibernate.orm.jdbc.bind: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 spring:
   datasource:

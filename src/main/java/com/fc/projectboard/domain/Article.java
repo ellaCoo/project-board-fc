@@ -1,13 +1,13 @@
 package com.fc.projectboard.domain; // 패키지 선언, 이 클래스가 속한 패키지의 경로를 지정함
 
-import jakarta.persistence.*; // JPA(Java Persistence API) 관련 클래스와 인터페이스를 모두 임포트
-import lombok.Getter; // Lombok 라이브러리에서 Getter 어노테이션을 임포트
-import lombok.Setter; // Lombok 라이브러리에서 Setter 어노테이션을 임포트
-import lombok.ToString; // Lombok 라이브러리에서 ToString 어노테이션을 임포트
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.LinkedHashSet; // Java의 LinkedHashSet 컬렉션을 사용하기 위해 임포트
-import java.util.Objects; // Java의 Objects 유틸리티 클래스를 임포트
-import java.util.Set; // Java의 Set 인터페이스를 임포트
+import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter // 모든 필드에 대한 getter 메서드를 자동으로 생성
 @ToString(callSuper = true) // toString 메서드를 생성, 부모 클래스의 필드도 포함하여 출력

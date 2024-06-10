@@ -10,12 +10,13 @@ public record ArticleCommentResponse(
         String content, // 댓글의 내용
         LocalDateTime createdAt, // 댓글이 생성된 시간
         String email, // 댓글 작성자의 이메일
-        String nickname // 댓글 작성자의 닉네임
+        String nickname,
+        String userId
 ) {
 
     // 정적 팩토리 메서드, 객체 생성과 초기화를 동시에 처리하여 새로운 ArticleCommentResponse 객체를 반환
-    public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname) {
-        return new ArticleCommentResponse(id, content, createdAt, email, nickname);
+    public static ArticleCommentResponse of(Long id, String content, LocalDateTime createdAt, String email, String nickname, String userId) {
+        return new ArticleCommentResponse(id, content, createdAt, email, nickname, userId);
     }
 
     // DTO로부터 ArticleCommentResponse 객체를 생성하는 정적 팩토리 메서드
@@ -31,7 +32,8 @@ public record ArticleCommentResponse(
                 dto.content(), // 댓글 내용
                 dto.createdAt(), // 댓글 생성 시간
                 dto.userAccountDto().email(), // 댓글 작성자 이메일
-                nickname // 계산된 닉네임
+                nickname,
+                dto.userAccountDto().userId()
         );
     }
 
