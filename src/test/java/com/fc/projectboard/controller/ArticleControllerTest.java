@@ -110,7 +110,7 @@ class ArticleControllerTest {
 
     @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 페이징, 정렬 기능")
     @Test
-    void givenPagingAndSortingParams_whenSearchingArticlesPage_thenReturnsArticlesPage() throws Exception {
+    void givenPagingAndSortingParams_whenSearchingArticlesView_thenReturnsArticlesView() throws Exception {
         // Given
         String sortName = "title";
         String direction = "desc";
@@ -123,10 +123,10 @@ class ArticleControllerTest {
 
         // When & Then
         mvc.perform(
-                        get("/articles")
-                                .queryParam("page", String.valueOf(pageNumber))
-                                .queryParam("size", String.valueOf(pageSize))
-                                .queryParam("sort", sortName + "," + direction)
+                get("/articles")
+                        .queryParam("page", String.valueOf(pageNumber))
+                        .queryParam("size", String.valueOf(pageSize))
+                        .queryParam("sort", sortName + "," + direction)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
@@ -154,7 +154,7 @@ class ArticleControllerTest {
     @WithMockUser // user정보를 모킹해서 넣어줌
     @DisplayName("[view][GET] 게시글 페이지 - 정상 호출, 인증된 사용자")
     @Test
-    void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
+    void givenAuthorizedUser_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
         // Given
         Long articleId = 1L;
         long totalCount = 1L;
@@ -168,7 +168,6 @@ class ArticleControllerTest {
                 .andExpect(view().name("articles/detail"))
                 .andExpect(model().attributeExists("article"))
                 .andExpect(model().attributeExists("articleComments"))
-                .andExpect(model().attributeExists("totalCount"))
                 .andExpect(model().attribute("totalCount", totalCount));
         then(articleService).should().getArticleWithComments(articleId);
         then(articleService).should().getArticleCount();
