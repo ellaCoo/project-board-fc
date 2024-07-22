@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -37,7 +38,11 @@ public class ArticleService {
             case CONTENT -> articleRepository.findByContentContaining(searchKeyword, pageable).map(ArticleDto::from);
             case ID -> articleRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(ArticleDto::from);
             case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(ArticleDto::from);
-            case HASHTAG -> articleRepository.findByHashtag("#" + searchKeyword, pageable).map(ArticleDto::from);
+            case HASHTAG -> articleRepository.findByHashtagNames(
+                            Arrays.stream(searchKeyword.split(" ")).toList(),
+                            pageable
+                    )
+                    .map(ArticleDto::from);
         };
     }
 
@@ -68,7 +73,6 @@ public class ArticleService {
             if (article.getUserAccount().equals(userAccount)) {
                 if (dto.title() != null) { article.setTitle(dto.title()); }
                 if (dto.content() != null) { article.setContent(dto.content()); }
-                article.setHashtag(dto.hashtag());
             }
             // 트랜잭션이 끝날때 영속성 컨텍스트는 article이 변한것을 감지 => 쿼리 날림(따로 save 명시하지 않아도 됨)
         } catch (EntityNotFoundException e) {
@@ -89,7 +93,7 @@ public class ArticleService {
         if (hashtag == null || hashtag.isBlank()) {
             return Page.empty(pageable);
         }
-        return articleRepository.findByHashtag(hashtag, pageable).map(ArticleDto::from);
+        return articleRepository.findByHashtagNames(null, pageable).map(ArticleDto::from);
     }
 
     public List<String> getHashtags() {

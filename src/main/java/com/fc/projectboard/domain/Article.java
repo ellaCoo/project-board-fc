@@ -13,7 +13,6 @@ import java.util.Set;
 @ToString(callSuper = true) // toString 메서드를 생성, 부모 클래스의 필드도 포함하여 출력
 @Table(indexes = { // 이 클래스를 데이터베이스 테이블과 매핑하고 인덱스를 생성
         @Index(columnList = "title"), // 'title' 필드에 대한 인덱스 생성
-        @Index(columnList = "hashtag"), // 'hashtag' 필드에 대한 인덱스 생성
         @Index(columnList = "createdAt"), // 'createdAt' 필드에 대한 인덱스 생성
         @Index(columnList = "createdBy") // 'createdBy' 필드에 대한 인덱스 생성
 })
@@ -25,8 +24,8 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
     private Long id; // 기본 키 필드
 
     @Setter
-    @ManyToOne(optional = false)
     @JoinColumn(name = "userId")
+    @ManyToOne(optional = false)
     private UserAccount userAccount; // 유저 정보 (ID)
 
     @Setter // 'title' 필드에 대한 setter 메서드 자동 생성
@@ -37,8 +36,14 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
     @Column(nullable = false, length = 10000) // 데이터베이스 컬럼으로 매핑, null을 허용하지 않고 최대 길이 10000
     private String content; // 글의 내용을 저장하는 필드
 
-    @Setter // 'hashtag' 필드에 대한 setter 메서드 자동 생성
-    private String hashtag; // 글에 포함된 해시태그를 저장하는 필드
+    @ToString.Exclude
+    @JoinTable(
+            name = "article_hashtag",
+            joinColumns = @JoinColumn(name = "articleId"),
+            inverseJoinColumns = @JoinColumn(name = "hashtagId")
+    )
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Hashtag> hashtags = new LinkedHashSet<>();
 
     @OrderBy("createdAt DESC") // 'articleComments'를 'createdAt' 기준으로 내림차순 정렬
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL) // 일대다 관계, 'article' 필드에 의해 매핑되며, 연관된 엔티티도 모두 영속성 전이
@@ -49,15 +54,26 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
 
     }
 
-    private Article(UserAccount userAccount, String title, String content, String hashtag) { // 필드 초기화를 위한 생성자
+    private Article(UserAccount userAccount, String title, String content) {
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;
-        this.hashtag = hashtag;
     }
 
-    public static Article of(UserAccount userAccount, String title, String content, String hashtag) { // 객체를 생성하고 초기화하는 팩토리 메서드
-        return new Article(userAccount, title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content) {
+        return new Article(userAccount, title, content);
+    }
+
+    public void addHashtag(Hashtag hashtag) {
+        this.getHashtags().add(hashtag);
+    }
+
+    public void addHashtags(Collection<Hashtag> hashtags) {
+        this.getHashtags().addAll(hashtags);
+    }
+
+    public void clearHashtags() {
+        this.getHashtags().clear();
     }
 
     @Override
