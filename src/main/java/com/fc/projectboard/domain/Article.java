@@ -24,10 +24,10 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 생성 전략을 데이터베이스 IDENTITY로 지정(자동 증가)
     private Long id; // 기본 키 필드
 
-    @Setter // setter 메서드를 자동 생성
-    @ManyToOne(optional = false) // 다대일 관계를 나타내며, 반드시 관계가 존재해야 함(non-optional)
+    @Setter
+    @ManyToOne(optional = false)
     @JoinColumn(name = "userId")
-    private UserAccount userAccount; // 관계된 UserAccount 엔티티를 참조
+    private UserAccount userAccount; // 유저 정보 (ID)
 
     @Setter // 'title' 필드에 대한 setter 메서드 자동 생성
     @Column(nullable = false) // 데이터베이스 컬럼으로 매핑, null을 허용하지 않음
