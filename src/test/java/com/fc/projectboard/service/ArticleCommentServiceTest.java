@@ -2,6 +2,7 @@ package com.fc.projectboard.service;
 
 import com.fc.projectboard.domain.Article;
 import com.fc.projectboard.domain.ArticleComment;
+import com.fc.projectboard.domain.Hashtag;
 import com.fc.projectboard.domain.UserAccount;
 import com.fc.projectboard.dto.ArticleCommentDto;
 import com.fc.projectboard.dto.UserAccountDto;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -164,7 +166,7 @@ class ArticleCommentServiceTest {
 
     private ArticleComment createArticleComment(String content) {
         return ArticleComment.of(
-                Article.of(createUserAccount(), "title", "content", "hashtag"),
+                createArticle(),
                 createUserAccount(),
                 content
         );
@@ -181,12 +183,17 @@ class ArticleCommentServiceTest {
     }
 
     private Article createArticle() {
-        return Article.of(
+        Article article = Article.of(
                 createUserAccount(),
                 "title",
-                "content",
-                "#java"
+                "content"
         );
+        article.addHashtags(Set.of(createHashtag(article)));
+
+        return article;
     }
 
+    private Hashtag createHashtag(Article article) {
+        return Hashtag.of("java");
+    }
 }

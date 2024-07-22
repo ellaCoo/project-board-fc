@@ -1,23 +1,26 @@
 package com.fc.projectboard.dto.response; // 패키지 선언, 이 클래스가 위치할 패키지 경로 지정
 
 import com.fc.projectboard.dto.ArticleDto;
+import com.fc.projectboard.dto.HashtagDto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 // ArticleResponse는 레코드 클래스로, 응답 데이터 구조를 간단하게 정의
 public record ArticleResponse(
         Long id, // 게시글의 ID
         String title, // 게시글의 제목
         String content, // 게시글의 내용
-        String hashtag, // 게시글에 연결된 해시태그
+        Set<String> hashtags,
         LocalDateTime createdAt, // 게시글 생성 시간
         String email, // 게시글 작성자의 이메일
         String nickname // 게시글 작성자의 닉네임
 ) {
 
     // 정적 팩토리 메서드, 모든 필드 값을 입력받아 새로운 ArticleResponse 객체를 생성하여 반환
-    public static ArticleResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname) {
-        return new ArticleResponse(id, title, content, hashtag, createdAt, email, nickname);
+    public static ArticleResponse of(Long id, String title, String content, Set<String> hashtags, LocalDateTime createdAt, String email, String nickname) {
+        return new ArticleResponse(id, title, content, hashtags, createdAt, email, nickname);
     }
 
     // DTO 객체로부터 ArticleResponse 객체를 생성하는 정적 팩토리 메서드
@@ -32,7 +35,10 @@ public record ArticleResponse(
                 dto.id(), // 게시글 ID
                 dto.title(), // 게시글 제목
                 dto.content(), // 게시글 내용
-                dto.hashtag(), // 게시글 해시태그
+                dto.hashtagDtos().stream()
+                        .map(HashtagDto::hashtagName)
+                        .collect(Collectors.toUnmodifiableSet())
+                ,
                 dto.createdAt(), // 게시글 생성 시간
                 dto.userAccountDto().email(), // 게시글 작성자 이메일
                 nickname // 계산된 또는 대체된 닉네임

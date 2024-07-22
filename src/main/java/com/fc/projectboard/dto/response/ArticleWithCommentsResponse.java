@@ -1,6 +1,7 @@
 package com.fc.projectboard.dto.response;
 
 import com.fc.projectboard.dto.ArticleWithCommentsDto;
+import com.fc.projectboard.dto.HashtagDto;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -11,7 +12,7 @@ public record ArticleWithCommentsResponse(
         Long id, // 게시글의 고유 번호(ID)
         String title, // 게시글 제목
         String content, // 게시글 내용
-        String hashtag, // 게시글에 사용된 해시태그
+        Set<String> hashtags,
         LocalDateTime createdAt, // 게시글이 생성된 시간
         String email, // 게시글 작성자의 이메일 주소
         String nickname, // 게시글 작성자의 닉네임
@@ -20,8 +21,8 @@ public record ArticleWithCommentsResponse(
 ) {
 
     // 정적 팩토리 메서드, 필요한 모든 정보를 받아 ArticleWithCommentResponse 객체를 생성하고 반환
-    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
-        return new ArticleWithCommentsResponse(id, title, content, hashtag, createdAt, email, nickname, userId, articleCommentResponses);
+    public static ArticleWithCommentsResponse of(Long id, String title, String content, Set<String> hashtags, LocalDateTime createdAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
+        return new ArticleWithCommentsResponse(id, title, content, hashtags, createdAt, email, nickname, userId, articleCommentResponses);
     }
 
     // DTO를 사용해 ArticleWithCommentResponse 객체를 생성하는 정적 팩토리 메서드
@@ -36,7 +37,10 @@ public record ArticleWithCommentsResponse(
                 dto.id(), // DTO에서 게시글 ID 가져오기
                 dto.title(), // DTO에서 게시글 제목 가져오기
                 dto.content(), // DTO에서 게시글 내용 가져오기
-                dto.hashtag(), // DTO에서 게시글 해시태그 가져오기
+                dto.hashtagDtos().stream()
+                        .map(HashtagDto::hashtagName)
+                        .collect(Collectors.toUnmodifiableSet())
+                ,
                 dto.createdAt(), // DTO에서 게시글 생성 시간 가져오기
                 dto.userAccountDto().email(), // DTO에서 작성자 이메일 가져오기
                 nickname, // 계산된 또는 대체된 닉네임
