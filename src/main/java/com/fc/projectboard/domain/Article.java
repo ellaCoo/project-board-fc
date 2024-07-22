@@ -64,11 +64,11 @@ public class Article extends AuditingFields{ // AuditingFields 클래스를 상�
     public boolean equals(Object o) { // 객체 동등성을 비교하는 메서드, 'id' 필드 기준으로 비교
         if (this == o) return true;
         if (!(o instanceof Article that)) return false;
-        return id != null && id.equals(that.getId());
+        return this.getId() != null && this.getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() { // 객체의 해시코드를 생성하는 메서드, 'id' 필드를 기반으로 해시코드 생성
-        return Objects.hash(id);
+        return Objects.hash(this.getId());
     }
 }
