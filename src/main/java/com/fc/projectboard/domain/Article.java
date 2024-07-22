@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
