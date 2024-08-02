@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.BDDMockito.*;
 
@@ -138,5 +139,20 @@ class HashtagServiceTest {
         // Then
         then(hashtagRepository).should().getReferenceById(hashtagId);
         then(hashtagRepository).should(times(0)).delete(hashtag);
+    }
+
+    @DisplayName("존재하지 않는 해시태그 ID가 주어지면, 예외를 던진다.")
+    @Test
+    void givenNonexistentHashtagId_whenDeleting_thenThrowsException() {
+        // Given
+        Long hashtagId = -123L;
+        given(hashtagRepository.getReferenceById(hashtagId)).willThrow(RuntimeException.class);
+
+        // When
+        Throwable t = catchThrowable(() -> sut.deleteHashtagWithoutArticles(hashtagId));
+
+        // Then
+        assertThat(t).isInstanceOf(RuntimeException.class);
+        then(hashtagRepository).should().getReferenceById(hashtagId);
     }
 }
