@@ -137,7 +137,7 @@ public class ArticleService {
                 .collect(Collectors.toUnmodifiableSet());
 
         hashtagNamesInContent.forEach(newHashtagName -> {
-            if (!existingHashtagNames.contains(newHashtagName)) {
+            if (!existingHashtagNames.contains(newHashtagName.toLowerCase())) {
                 hashtags.add(Hashtag.of(newHashtagName));
             }
         });
